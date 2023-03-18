@@ -1,6 +1,16 @@
 import React from 'react';
+import apiURL from '../api';
+
 
 export const ArticleDetail = (props) => {
+
+  const deleteArticle = async (slug) => {
+    const res = await fetch(`${apiURL}/wiki/${slug}`, {method: "DELETE"})
+    const data = await res.json()
+    props.setDeletedArticleToTrue()
+    props.removeSelectedArticle()
+  }
+
 
   return <>
     <h3>{props.page.title}</h3>
@@ -11,6 +21,7 @@ export const ArticleDetail = (props) => {
         props.page.tags.map((tag, indx) => <p key={indx}>{tag.name}</p>)
     }</span>
     </h6>
+    <button onClick={() => deleteArticle(props.page.slug)}>DELETE</button>
     <button onClick={() => props.removeSelectedArticle()}>Back to Wiki List</button>
   </>
 } 

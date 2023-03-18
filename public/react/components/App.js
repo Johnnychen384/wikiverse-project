@@ -12,12 +12,14 @@ export const App = () => {
 	const [article, setArticle] = useState({});
 	const [selectedArticle, setSelectedArticle] = useState(false)
 	const [isAddingArticle, setIsAddingArticle] = useState(false)
+	const [deletedArticle, setDeletedArticle] = useState(false)
 
 	async function fetchPages(){
 		try {
 			const response = await fetch(`${apiURL}/wiki`);
 			const pagesData = await response.json();
 			setPages(pagesData);
+			setDeletedArticle(false)
 		} catch (err) {
 			console.log("Oh no an error! ", err)
 		}
@@ -30,7 +32,7 @@ export const App = () => {
 			const data = await res.json()
 			setArticle(data)
 			setSelectedArticle(true)
-			console.log(data)
+			
 		} catch (err) {
 			console.log("ERROR" + err)
 		}
@@ -44,10 +46,14 @@ export const App = () => {
 		setIsAddingArticle(false)
 	}
 
+	const setDeletedArticleToTrue = () => {
+		setDeletedArticle(true)
+	}
+
 	useEffect(() => {
 		fetchPages();
 		
-	}, [isAddingArticle]);
+	}, [isAddingArticle, deletedArticle]);
 
 
 	return (
@@ -55,7 +61,7 @@ export const App = () => {
       		
 			{
 				selectedArticle ?
-				<ArticleDetail page={article} removeSelectedArticle={removeSelectedArticle}/>
+				<ArticleDetail page={article} removeSelectedArticle={removeSelectedArticle} setDeletedArticleToTrue={setDeletedArticleToTrue}/>
 				:
 				<>
 					<h1>WikiVerse</h1>

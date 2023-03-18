@@ -30,8 +30,8 @@ export const Form = (props) => {
 
     const checkForm = () => {
         const formDataArr = Object.values(articleData)
-
-        if(formDataArr.length < 3) return false
+        
+        if(formDataArr.length < 4) return false
         else return true
     }
 
